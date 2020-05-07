@@ -50,7 +50,7 @@ public class FetchJsonUtils {
                         stepsList.add(steps);
                     }
                     String servings = jsonBaking.getString("servings");
-                    Recipes recipes = new Recipes(recipe_name,servings);
+                    Recipes recipes = new Recipes(recipe_name,servings,"false");
                     recipesList.add(recipes);
                 }
                 Pair pair = new Pair<ArrayList<Ingredients>, ArrayList<Steps>>(ingredientsList,stepsList);

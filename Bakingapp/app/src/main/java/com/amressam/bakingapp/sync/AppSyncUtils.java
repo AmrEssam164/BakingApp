@@ -20,17 +20,22 @@ import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
+import com.amressam.bakingapp.classes.Recipes;
+import com.amressam.bakingapp.database.MainViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AppSyncUtils {
 
-//    private static final int SYNC_INTERVAL_HOURS = 12;
-//    private static final int SYNC_INTERVAL_SECONDS = (int) TimeUnit.HOURS.toSeconds(SYNC_INTERVAL_HOURS);
-//    private static final int SYNC_FLEXTIME_SECONDS = SYNC_INTERVAL_SECONDS / 3;
-//
-//    private static final String MOVIES_SYNC_TAG = "movies-sync";
-
     private static final String TAG = "AppSyncUtils";
     private static boolean sInitialized;
+    private static ArrayList<Recipes> mRecipes;
 
 
     synchronized public static void initialize(@NonNull final Context context) {
@@ -43,9 +48,20 @@ public class AppSyncUtils {
 
         Log.d(TAG, "initialize: first time");
         sInitialized = true;
-        startImmediateSyncForBakingData(context);
 
-
+        MainViewModel mainViewModel = ViewModelProviders.of((FragmentActivity) context).get(MainViewModel.class);
+        mainViewModel.getLiveRecipes().observe((LifecycleOwner) context, new Observer<List<Recipes>>() {
+            @Override
+            public void onChanged(List<Recipes> recipes) {
+                mRecipes=(ArrayList<Recipes>) recipes;
+                if(recipes.size()==0){
+                    Log.d(TAG, "onChanged: Database is empty");
+                    startImmediateSyncForBakingData(context);
+                } else {
+                    Log.d(TAG, "onChanged: Database isn't empty");
+                }
+            }
+        });
     }
 
     public static void startImmediateSyncForBakingData(@NonNull final Context context) {

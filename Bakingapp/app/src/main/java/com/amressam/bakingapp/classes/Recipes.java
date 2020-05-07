@@ -13,17 +13,20 @@ public class Recipes implements Serializable {
     private int id;
     private String recipe_name;
     private String servings;
+    private String widget;
 
     @Ignore
-    public Recipes(String recipe_name, String servings) {
+    public Recipes(String recipe_name, String servings,String widget) {
         this.recipe_name = recipe_name;
         this.servings = servings;
+        this.widget=widget;
     }
 
-    public Recipes(int id, String recipe_name, String servings) {
+    public Recipes(int id, String recipe_name, String servings,String widget) {
         this.id = id;
         this.recipe_name = recipe_name;
         this.servings = servings;
+        this.widget=widget;
     }
 
     public int getId() {
@@ -44,5 +47,13 @@ public class Recipes implements Serializable {
 
     public void setServings(String servings) {
         this.servings = servings;
+    }
+
+    public String getWidget() {
+        return widget;
+    }
+
+    public void setWidget(String widget) {
+        this.widget = widget;
     }
 }

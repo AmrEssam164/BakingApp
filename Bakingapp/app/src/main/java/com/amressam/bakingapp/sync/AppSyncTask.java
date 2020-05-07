@@ -61,12 +61,6 @@ public class AppSyncTask {
                 appDB.taskDao().insertRecipe(recipes_temp);
                 appDB.taskDao().insertIngredient(ingredients_temp);
                 appDB.taskDao().insertStep(steps_temp);
-//                AppExecutors.getInstance().diskIO().execute(new Runnable() {
-//                    @Override
-//                    public void run() {
-//
-//                    }
-//                });
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -3,6 +3,7 @@ package com.amressam.bakingapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -26,9 +27,9 @@ public class MainActivity extends AppCompatActivity implements RecipesRecyclerVi
 
     private static final String TAG = "MainActivity";
     private AppDatabase appDB;
-    private List<Recipes> mRecipes;
-    private List<Ingredients> mIngredients;
-    private List<Steps> mSteps;
+    public static List<Recipes> mRecipes;
+    public static List<Ingredients> mIngredients;
+    public static List<Steps> mSteps;
     ActivityMainBinding mActivityMainBinding;
     RecipesRecyclerViewAdapter mRecipesRecyclerViewAdapter;
     public static final String RECIPES_STATE = "recipe";
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements RecipesRecyclerVi
     public static final String STEPS_STATE = "steps";
     public static final String INGREDIENTS_INTENT = "ingredients";
     public static final String STEPS_INTENT = "steps";
+    public static final String POSITION_INTENT = "position";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements RecipesRecyclerVi
         Intent intent = new Intent(this,IngredientsStepsActivity.class);
         intent.putExtra(INGREDIENTS_INTENT, (Serializable) recipeIngredients);
         intent.putExtra(STEPS_INTENT, (Serializable) recipeSteps);
+        intent.putExtra(POSITION_INTENT,position);
         startActivity(intent);
     }
 
@@ -77,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements RecipesRecyclerVi
         mainViewModel.getLiveRecipes().observe(this, new Observer<List<Recipes>>() {
             @Override
             public void onChanged(List<Recipes> recipes) {
-                Log.d(TAG, "onChanged: hia mra w7da bs");
                 mRecipes=recipes;
                 mRecipesRecyclerViewAdapter.loadNewRecipesData(recipes);
             }
